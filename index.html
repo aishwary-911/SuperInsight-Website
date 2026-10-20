@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="Logo.png">
+    <title>SuperInsight - Smart Data Analytics (Classic & Lite Editions)</title>
+    <!-- Tailwind CSS (Allowed external CDN) -->
+    <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+    <style>
+        body {
+            background-color: #0B1120; /* Deep Navy / Charcoal */
+            color: #F8FAFC; /* Crisp White Typography */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        /* Glassmorphism Panels */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-panel:hover {
+            border-color: rgba(34, 211, 238, 0.5); /* Cyan / Icy Light Blue Border on Hover */
+            box-shadow: 0 0 20px rgba(34, 211, 238, 0.15);
+        }
+
+        /* Lite Distinct Glass Panel */
+        .glass-panel-lite {
+            background: rgba(17, 34, 46, 0.55);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(45, 212, 191, 0.25);
+        }
+        .glass-panel-lite:hover {
+            border-color: rgba(45, 212, 191, 0.6);
+            box-shadow: 0 0 20px rgba(45, 212, 191, 0.2);
+        }
+
+        /* Gradient Branding (Deep Blue -> Bright Mint/Neon Green) */
+        .text-gradient {
+            background: linear-gradient(135deg, #2563EB, #2DD4BF, #4ADE80);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #2563EB, #2DD4BF, #4ADE80);
+            background-size: 200% auto;
+            transition: background-position 0.5s ease;
+        }
+        .bg-gradient-primary:hover {
+            background-position: right center;
+        }
+
+        /* Lite Specific Teal / Emerald Gradient */
+        .bg-gradient-teal {
+            background: linear-gradient(135deg, #0D9488, #10B981, #34D399);
+            background-size: 200% auto;
+            transition: background-position 0.5s ease;
+        }
+        .bg-gradient-teal:hover {
+            background-position: right center;
+        }
+
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Explicit Logo Constraints */
+        .nav-logo {
+            width: 32px;
+            height: 32px;
+            max-width: 32px;
+            max-height: 32px;
+            object-fit: contain;
+            display: inline-block;
+        }
+        .hero-logo {
+            width: 112px;
+            height: 112px;
+            max-width: 112px;
+            max-height: 112px;
+            object-fit: contain;
+            display: block;
+        }
+        .footer-logo {
+            width: 32px;
+            height: 32px;
+            max-width: 32px;
+            max-height: 32px;
+            object-fit: contain;
+            display: inline-block;
+        }
+
+        /* Subtle Toast Animation */
+        #downloadToast {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden select-none cursor-default">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-panel border-t-0 border-l-0 border-r-0 border-b border-[rgba(255,255,255,0.05)] transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo & Brand -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <img src="Logo.png" alt="SuperInsight Logo" class="nav-logo rounded-lg shadow-[0_0_15px_rgba(45,212,191,0.5)] group-hover:scale-105 transition-transform">
+                    <span class="font-bold text-xl tracking-tight text-white group-hover:text-cyan-400 transition-colors">SuperInsight</span>
+                </a>
+                
+                <!-- Desktop Links -->
+                <div class="hidden md:block">
+                    <div class="ml-8 flex items-baseline space-x-6">
+                        <a href="#features" class="text-slate-300 hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">Features</a>
+                        <a href="#audience" class="text-slate-300 hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">For Who</a>
+                        <a href="#download" class="text-slate-300 hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">Installers</a>
+                        <a href="#comparison" class="text-slate-300 hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">Compare Editions</a>
+                        <a href="#system-requirements" class="text-slate-300 hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">Requirements</a>
+                        <a href="#tech-specs" class="text-slate-300 hover:text-cyan-400 transition-colors px-3 py-2 rounded-md text-sm font-medium">Tech Specs</a>
+                    </div>
+                </div>
+
+                <!-- CTA (Desktop) -->
+                <div class="hidden md:flex items-center gap-3">
+                    <a href="#download" class="inline-flex items-center justify-center px-5 py-2 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-gradient-primary hover:shadow-[0_0_20px_rgba(45,212,191,0.6)] transition-all transform hover:-translate-y-0.5">
+                        Download Software
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuBtn" aria-label="Toggle navigation menu" class="text-slate-300 hover:text-white p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400">
+                        <svg class="w-6 h-6" id="menuIconClosed" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                        <svg class="w-6 h-6 hidden" id="menuIconOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden px-4 pt-2 pb-6 space-y-2 border-t border-slate-800 bg-[#0B1120]/95 backdrop-blur-xl">
+            <a href="#features" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-300 hover:text-cyan-400 hover:bg-slate-800/50">Features</a>
+            <a href="#audience" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-300 hover:text-cyan-400 hover:bg-slate-800/50">For Who</a>
+            <a href="#download" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-300 hover:text-cyan-400 hover:bg-slate-800/50">Installers</a>
+            <a href="#comparison" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-300 hover:text-cyan-400 hover:bg-slate-800/50">Compare Editions</a>
+            <a href="#system-requirements" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-300 hover:text-cyan-400 hover:bg-slate-800/50">Requirements</a>
+            <a href="#tech-specs" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-300 hover:text-cyan-400 hover:bg-slate-800/50">Tech Specs</a>
+            <div class="pt-4 flex flex-col gap-2.5">
+                <a href="https://github.com/codingshardy/Superinsight-Data-Analytics-Platform/releases/download/v3.3/SuperInsight_v3.3_Setup.exe" download="SuperInsight_v3.3_Setup.exe" onclick="showDownloadFeedback('SuperInsight_v3.3_Setup.exe')" class="w-full text-center py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-primary shadow-md">
+                    Download Classic Version (v3.3)
+                </a>
+                <a href="https://github.com/codingshardy/Superinsight-Data-Analytics-Platform/releases/download/v1.0.0/SuperInsight_v1.0_Setup.exe" download="SuperInsight_v1.0_Setup.exe" onclick="showDownloadFeedback('SuperInsight_v1.0_Setup.exe')" class="w-full text-center py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-teal shadow-md">
+                    Download Lite Version (v1.0)
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative pt-32 pb-20 sm:pt-40 sm:pb-24 lg:pb-32 overflow-hidden">
+        <!-- Abstract glowing background blobs -->
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full mix-blend-screen filter blur-[100px] animate-pulse"></div>
+        <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-teal-500/20 rounded-full mix-blend-screen filter blur-[100px] animate-pulse delay-300"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="fade-in-up">
+                <!-- Official Release & Edition Badge -->
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border border-cyan-500/30 text-xs text-slate-300 mb-6 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span class="font-semibold text-cyan-300">Windows Desktop Release</span>
+                    <span class="text-slate-500">•</span>
+                    <span>Classic & Lite Editions Available</span>
+                </div>
+
+                <img src="Logo.png" alt="SuperInsight App Icon" class="hero-logo mx-auto rounded-[2rem] shadow-[0_0_40px_rgba(45,212,191,0.5)] mb-8 floating">
+                
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
+                    Smart Data Analytics,<br/>
+                    <span class="text-gradient">Zero Coding Required.</span>
+                </h1>
+                
+                <p class="mt-4 max-w-3xl mx-auto text-xl text-slate-300">
+                    The intelligent desktop application for automated data preprocessing, exploratory analysis, machine learning, and AI-assisted analytics. Choose between our full-featured <strong class="text-cyan-400 font-semibold">Classic Desktop Suite (v3.3)</strong> and our streamlined <strong class="text-teal-400 font-semibold">Lite Edition</strong>.
+                </p>
+                
+                <!-- Dual Download Action Buttons -->
+                <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <!-- Classic Version Download Button -->
+                    <a href="https://github.com/codingshardy/Superinsight-Data-Analytics-Platform/releases/download/v3.3/SuperInsight_v3.3_Setup.exe" 
+                       download="SuperInsight_v3.3_Setup.exe" 
+                       onclick="showDownloadFeedback('SuperInsight_v3.3_Setup.exe')"
+                       class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-semibold rounded-full text-white bg-gradient-primary shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(45,212,191,0.6)] transition-all transform hover:-translate-y-1">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Download Classic Version (v3.3)
+                    </a>
+
+                    <!-- Lite Download Button -->
+                    <a href="https://github.com/codingshardy/Superinsight-Data-Analytics-Platform/releases/download/v1.0.0/SuperInsight_v1.0_Setup.exe" 
+                       download="SuperInsight_v1.0_Setup.exe" 
+                       onclick="showDownloadFeedback('SuperInsight_v1.0_Setup.exe')"
+                       class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border border-teal-500/40 text-base font-semibold rounded-full text-white bg-gradient-teal shadow-[0_0_20px_rgba(16,185,129,0.35)] hover:shadow-[0_0_30px_rgba(45,212,191,0.6)] transition-all transform hover:-translate-y-1">
+                        <svg class="w-5 h-5 mr-3 text-teal-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        Download Lite Version (v1.0)
+                    </a>
+                </div>
+
+                <!-- Sub-info line -->
+                <div class="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-400">
+                    <span class="flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Classic Version: Tabular & Image Model Training + Code Editor
+                    </span>
+                    <span class="text-slate-600">•</span>
+                    <span class="flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Lite: Focused Tabular ML & Preprocessing + Code Editor
+                    </span>
+                    <span class="text-slate-600">•</span>
+                    <span class="text-slate-300 font-semibold">Exclusively for Windows 10 / 11 (64-bit)</span>
+                    <span class="text-slate-600">•</span>
+                    <a href="#comparison" class="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 font-medium transition-colors">Compare Differences &darr;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Features Section -->
+    <section id="features" class="py-24 bg-slate-900/40 border-y border-[rgba(255,255,255,0.02)]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in-up delay-100">
+                <h2 class="text-3xl md:text-4xl font-bold">Discover the Power of <span class="text-cyan-400">SuperInsight</span></h2>
+                <p class="mt-4 text-lg text-slate-400">Everything you need from raw dataset to predictive insights, built into one seamless UI.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Feature 1: Preprocessing & Cleaning (Both) -->
+                <div class="glass-panel p-8 rounded-[2rem] transition-all duration-300 fade-in-up delay-100 group">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-6 border border-blue-500/20 text-blue-400 group-hover:bg-blue-500/20 group-hover:scale-110 transition-all">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                    </div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <h3 class="text-2xl font-bold group-hover:text-cyan-300 transition-colors">Automated Preprocessing & Cleaning</h3>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed">Comprehensive tools for missing-value imputation (Mean, Median, Mode, KNN, Iterative), outlier detection & trimming, data scaling, and feature encoding. Clean messy tabular datasets in seconds.</p>
+                    <div class="mt-4 flex gap-2">
+                        <span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-emerald-950/60 text-emerald-300 border border-emerald-800/60">✓ Present in Both Classic & Lite Editions</span>
+                    </div>
+                </div>
+                
+                <!-- Feature 2: Data Model Training (Both) -->
+                <div class="glass-panel p-8 rounded-[2rem] transition-all duration-300 fade-in-up delay-200 group">
+                    <div class="w-14 h-14 rounded-2xl bg-teal-500/10 flex items-center justify-center mb-6 border border-teal-500/20 text-teal-400 group-hover:bg-teal-500/20 group-hover:scale-110 transition-all">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+                    </div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <h3 class="text-2xl font-bold group-hover:text-cyan-300 transition-colors">Data Model Training (Tabular ML)</h3>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed">Train and evaluate classification and regression models seamlessly on tabular datasets. Benefit from automated machine learning (AutoML), Random Forest, XGBoost, cross-validation, and hyperparameter tuning.</p>
+                    <div class="mt-4 flex gap-2">
+                        <span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-emerald-950/60 text-emerald-300 border border-emerald-800/60">✓ Present in Both Classic & Lite Editions</span>
+                    </div>
+                </div>
+
+                <!-- Feature 3: Image Model Training & Vision (Classic Only) -->
+                <div class="glass-panel p-8 rounded-[2rem] transition-all duration-300 fade-in-up delay-300 group">
+                    <div class="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center mb-6 border border-indigo-500/20 text-indigo-400 group-hover:bg-indigo-500/20 group-hover:scale-110 transition-all">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <h3 class="text-2xl font-bold group-hover:text-cyan-300 transition-colors">Image Model Training & Computer Vision</h3>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed">Dedicated computer vision suite for image preprocessing, visual feature extraction, image classification model training, and dataset augmentation. Tailored for visual and multimodal tasks.</p>
+                    <div class="mt-4 flex gap-2">
+                        <span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-cyan-950/60 text-cyan-300 border border-cyan-800/60">Classic Version Full Suite</span>
+                        <span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-indigo-950/60 text-indigo-300 border border-indigo-800/60">Dedicated Vision Engine</span>
+                    </div>
+                </div>
+
+                <!-- Feature 4: Code Editor (Both) -->
+                <div class="glass-panel p-8 rounded-[2rem] transition-all duration-300 fade-in-up delay-300 group">
+                    <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 flex items-center justify-center mb-6 border border-cyan-500/20 text-cyan-400 group-hover:bg-cyan-500/20 group-hover:scale-110 transition-all">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                    </div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <h3 class="text-2xl font-bold group-hover:text-cyan-300 transition-colors">Integrated Code Editor</h3>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed">A built-in Python REPL environment for developers to interact directly with active dataframes. Perform custom script logic, advanced mathematical transformations, and extend the processing pipeline.</p>
+                    <div class="mt-4 flex gap-2">
+                        <span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-emerald-950/60 text-emerald-300 border border-emerald-800/60">✓ Present in Both Classic & Lite Editions</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Target Audience -->
+    <section id="audience" class="py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-12">Empowering Every Data Pioneer</h2>
+            <div class="flex flex-wrap justify-center gap-4">
+                <div class="px-6 py-4 rounded-full glass-panel flex items-center gap-2 hover:-translate-y-1 transition-transform cursor-default">
+                    <div class="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_#60a5fa]"></div>
+                    <span class="font-medium">Data Analysts</span>
+                </div>
+                <div class="px-6 py-4 rounded-full glass-panel flex items-center gap-2 hover:-translate-y-1 transition-transform cursor-default">
+                    <div class="w-2 h-2 rounded-full bg-teal-400 shadow-[0_0_8px_#2dd4bf]"></div>
+                    <span class="font-medium">Researchers</span>
+                </div>
+                <div class="px-6 py-4 rounded-full glass-panel flex items-center gap-2 hover:-translate-y-1 transition-transform cursor-default">
+                    <div class="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_8px_#4ade80]"></div>
+                    <span class="font-medium">Business Users</span>
+                </div>
+                <div class="px-6 py-4 rounded-full glass-panel flex items-center gap-2 hover:-translate-y-1 transition-transform cursor-default">
+                    <div class="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]"></div>
+                    <span class="font-medium">Students</span>
+                </div>
+                <div class="px-6 py-4 rounded-full glass-panel flex items-center gap-2 hover:-translate-y-1 transition-transform cursor-default">
+                    <div class="w-2 h-2 rounded-full bg-indigo-400 shadow-[0_0_8px_#818cf8]"></div>
+                    <span class="font-medium">Developers</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dedicated Installer Options Section (Classic v3.3 & Lite) -->
+    <section id="download" class="py-24 border-t border-slate-800/80 bg-slate-900/40 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in-up">
+                <span class="text-xs uppercase tracking-widest text-cyan-400 font-mono font-semibold">Official Windows Installers</span>
+                <h2 class="text-3xl md:text-5xl font-bold mt-2">Download <span class="text-gradient">SuperInsight</span></h2>
+                <p class="mt-4 text-base sm:text-lg text-slate-300 max-w-3xl mx-auto">
+                    Select the installer that best fits your workflow. Both editions run completely offline on your local Windows PC with zero cloud storage dependencies.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+                <!-- Option A: Classic Version v3.3 Card -->
+                <div class="glass-panel p-8 sm:p-10 rounded-[2.5rem] border border-cyan-500/30 flex flex-col justify-between relative overflow-hidden group hover:border-cyan-400/60 transition-all">
+                    <!-- Glow effect -->
+                    <div class="absolute -top-24 -right-24 w-60 h-60 bg-blue-600/15 rounded-full filter blur-[70px] pointer-events-none"></div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800 text-xs font-mono font-semibold flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                                Classic Version (v3.3)
+                            </span>
+                            <span class="text-xs text-slate-400 font-mono">Flagship Standalone</span>
+                        </div>
+
+                        <h3 class="text-2xl sm:text-3xl font-bold text-white mb-3">SuperInsight Classic Version (v3.3)</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            The comprehensive flagship desktop analytics suite. Features full <strong class="text-cyan-300">Data Model Training (AutoML, Classification & Regression)</strong> and <strong class="text-cyan-300">Image Model Training (Computer Vision)</strong>, bundled with automated data cleaning, integrated Python REPL editor, and conversational Google Gemini AI assistant.
+                        </p>
+
+                        <!-- Confirmed Features of Classic -->
+                        <div class="mb-8">
+                            <h4 class="text-xs uppercase font-mono text-cyan-400 font-semibold tracking-wider mb-3">Confirmed Features of Classic v3.3:</h4>
+                            <ul class="space-y-2.5 text-sm text-slate-300">
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <span><strong>Self-Contained Bundle:</strong> Embedded Python runtime with all machine learning and computer vision libraries pre-configured.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <span><strong>Data Model Training (Tabular ML):</strong> Automated machine learning (AutoML), Random Forest, Gradient Boosting, XGBoost, Regression models, and hyperparameter grid tuning.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <span><strong>Image Model Training & Vision:</strong> OpenCV image preprocessing, visual filters, feature extraction, and image classification model training.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <span><strong>Advanced Data Preprocessing:</strong> Mean, Median, Mode, KNN Imputation, Iterative MICE, Outlier detection & trimming, MinMax/Standard scaling, and One-Hot encoding.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <span><strong>Integrated Python REPL Editor:</strong> Direct programmatic interaction with active dataframes for custom scripting and mathematical transformations.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <span><strong>SuperInsight AI Assistant:</strong> Plain-English dataset questions answered via Google Gemini with multi-turn session context.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <span><strong>In-Memory Privacy Guarantee:</strong> Zero persistent server database; all computations execute locally in workstation RAM.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Technical Specifications -->
+                        <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 text-xs font-mono text-slate-300 space-y-2 mb-8">
+                            <div class="text-[11px] font-bold uppercase tracking-wider text-cyan-400 border-b border-slate-800 pb-1.5 flex justify-between">
+                                <span>Platform Specifications</span>
+                                <span class="text-slate-500 font-normal">Classic Version (v3.3)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Package Format:</span>
+                                <span class="text-white font-bold">Self-Contained Windows Setup (.exe)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">RAM Baseline:</span>
+                                <span class="text-slate-200">8 GB min (16 GB rec for Image ML)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">CPU Architecture:</span>
+                                <span class="text-slate-200">64-bit Multi-Core (x86_64, 2.0+ GHz)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">GPU Support:</span>
+                                <span class="text-cyan-300">Optional (CPU default, CUDA for Vision)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Supported OS:</span>
+                                <span class="text-emerald-400">Windows 10 / 11 (64-bit)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dedicated Download Classic Button -->
+                    <div>
+                        <a href="https://github.com/codingshardy/Superinsight-Data-Analytics-Platform/releases/download/v3.3/SuperInsight_v3.3_Setup.exe" 
+                           download="SuperInsight_v3.3_Setup.exe" 
+                           onclick="showDownloadFeedback('SuperInsight_v3.3_Setup.exe')"
+                           class="w-full inline-flex items-center justify-center px-6 py-4 rounded-full text-base font-bold text-white bg-gradient-primary shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(45,212,191,0.6)] transition-all transform hover:-translate-y-1">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            Download Classic Version (v3.3)
+                        </a>
+                        <p class="text-center text-[11px] text-slate-500 font-mono mt-2">
+                            Direct GitHub release download • Windows 10/11 (64-bit)
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Option B: Lite Version Card -->
+                <div class="glass-panel-lite p-8 sm:p-10 rounded-[2.5rem] border border-teal-500/40 flex flex-col justify-between relative overflow-hidden group hover:border-teal-400/70 transition-all">
+                    <!-- Glow effect -->
+                    <div class="absolute -top-24 -right-24 w-60 h-60 bg-teal-500/15 rounded-full filter blur-[70px] pointer-events-none"></div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-teal-950 text-teal-300 border border-teal-800 text-xs font-mono font-semibold flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-teal-400"></span>
+                                Lite Version (v1.0)
+                            </span>
+                            <span class="text-xs text-teal-400 font-mono">Agile & Streamlined</span>
+                        </div>
+
+                        <h3 class="text-2xl sm:text-3xl font-bold text-white mb-3">SuperInsight Lite Version (v1.0)</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            The agile desktop edition featuring full <strong class="text-teal-300">Data Model Training (AutoML, Classification & Regression)</strong>, automated data preprocessing & cleaning, and an integrated Python REPL code editor. Purpose-built with a specialized focus on high-speed tabular data workflows and machine learning.
+                        </p>
+
+                        <!-- Confirmed Features of Lite -->
+                        <div class="mb-8">
+                            <h4 class="text-xs uppercase font-mono text-teal-400 font-semibold tracking-wider mb-3">Confirmed Features of Lite Version (v1.0):</h4>
+                            <ul class="space-y-2.5 text-sm text-slate-300">
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <span><strong>Data Model Training (Tabular ML):</strong> Full supervised classification, regression, AutoML, and hyperparameter tuning for CSV and tabular datasets.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <span><strong>Automated Data Cleaning:</strong> Full missing-value imputation, outlier detection & trimming, MinMax/Standard scaling, and encoding.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <span><strong>Integrated Python Code Editor:</strong> Interactive built-in REPL console for live data manipulation and custom scripting.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <span><strong>Exploratory Data Profiling:</strong> Fast CSV/TSV parsing, summary statistics, correlation heatmaps, and 2D charts.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <span><strong>AI Assistant Integration:</strong> Conversational Google Gemini plain-English dataset querying.</span>
+                                </li>
+                                <li class="flex items-start gap-2.5">
+                                    <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <span><strong>Dedicated Tabular Focus:</strong> Engineered purely for tabular ML datasets and rapid feature engineering without computer vision overhead.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Technical Specifications -->
+                        <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 text-xs font-mono text-slate-300 space-y-2 mb-8">
+                            <div class="text-[11px] font-bold uppercase tracking-wider text-teal-400 border-b border-slate-800 pb-1.5 flex justify-between">
+                                <span>Platform Specifications</span>
+                                <span class="text-slate-500 font-normal">Lite Edition</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Package Format:</span>
+                                <span class="text-white font-bold">Self-Contained Windows Setup (.exe)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">RAM Baseline:</span>
+                                <span class="text-slate-200">4 GB min (8 GB rec for Tabular ML)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">CPU Architecture:</span>
+                                <span class="text-slate-200">64-bit Multi-Core (x86_64, 1.8+ GHz)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">GPU Requirements:</span>
+                                <span class="text-emerald-400 font-semibold">100% CPU Optimized (No GPU Required)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Supported OS:</span>
+                                <span class="text-emerald-400">Windows 10 / 11 (64-bit)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dedicated Download Lite Button -->
+                    <div>
+                        <a href="https://github.com/codingshardy/Superinsight-Data-Analytics-Platform/releases/download/v1.0.0/SuperInsight_v1.0_Setup.exe" 
+                           download="SuperInsight_v1.0_Setup.exe" 
+                           onclick="showDownloadFeedback('SuperInsight_v1.0_Setup.exe')"
+                           class="w-full inline-flex items-center justify-center px-6 py-4 rounded-full text-base font-bold text-white bg-gradient-teal shadow-[0_0_20px_rgba(16,185,129,0.35)] hover:shadow-[0_0_30px_rgba(45,212,191,0.6)] transition-all transform hover:-translate-y-1">
+                            <svg class="w-5 h-5 mr-3 text-teal-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            Download Lite Version (v1.0)
+                        </a>
+                        <p class="text-center text-[11px] text-slate-500 font-mono mt-2">
+                            Direct GitHub release download • Windows 10/11 (64-bit)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Classic vs Lite Comparison Section -->
+    <section id="comparison" class="py-24 border-t border-slate-800/80 bg-[#070C18] relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in-up">
+                <span class="text-xs uppercase tracking-widest text-cyan-400 font-mono font-semibold">Edition Comparison & Features</span>
+                <h2 class="text-3xl md:text-5xl font-bold mt-2">Classic vs Lite <span class="text-gradient">Side-by-Side</span></h2>
+                <p class="mt-4 text-base sm:text-lg text-slate-300 max-w-3xl mx-auto">
+                    A comprehensive side-by-side comparison of capabilities, machine learning pipelines, and hardware profiles for SuperInsight.
+                </p>
+            </div>
+
+            <!-- Comparison Table Container -->
+            <div class="glass-panel rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl mb-12">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="border-b border-slate-800 bg-slate-900/95">
+                                <th class="p-5 text-slate-300 font-semibold w-1/3">
+                                    <div class="text-sm font-bold uppercase tracking-wider text-slate-400">Specification</div>
+                                    <div class="text-xs font-normal text-slate-500 mt-0.5">Software Attribute / Metric</div>
+                                </th>
+                                <th class="p-5 font-semibold w-1/3 text-cyan-400 bg-cyan-950/30 border-r border-slate-800/80">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <div class="text-base font-bold text-cyan-300">Classic Version (v3.3)</div>
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-900/70 text-cyan-300 border border-cyan-600/40">Full Suite</span>
+                                    </div>
+                                    <div class="text-xs font-normal text-slate-400 mb-3">Data & Image Model Training Suite</div>
+                                    <a href="https://github.com/codingshardy/Superinsight-Data-Analytics-Platform/releases/download/v3.3/SuperInsight_v3.3_Setup.exe" download="SuperInsight_v3.3_Setup.exe" onclick="showDownloadFeedback('SuperInsight_v3.3_Setup.exe')" class="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-semibold bg-gradient-primary text-white shadow-sm hover:opacity-90 transition-opacity">
+                                        <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                        Download Classic Version (v3.3)
+                                    </a>
+                                </th>
+                                <th class="p-5 font-semibold w-1/3 text-teal-400 bg-teal-950/30">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <div class="text-base font-bold text-teal-300">Lite Version (v1.0)</div>
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-teal-900/70 text-teal-300 border border-teal-600/40">Agile Edition</span>
+                                    </div>
+                                    <div class="text-xs font-normal text-slate-400 mb-3">Data Model Training & Preprocessing</div>
+                                    <a href="https://github.com/codingshardy/Superinsight-Data-Analytics-Platform/releases/download/v1.0.0/SuperInsight_v1.0_Setup.exe" download="SuperInsight_v1.0_Setup.exe" onclick="showDownloadFeedback('SuperInsight_v1.0_Setup.exe')" class="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-semibold bg-gradient-teal text-white shadow-sm hover:opacity-90 transition-opacity">
+                                        <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                        Download Lite Version (v1.0)
+                                    </a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/80 text-slate-300">
+                            <!-- Category: Packaging & Deployment -->
+                            <tr class="bg-slate-900/60">
+                                <td colspan="3" class="px-5 py-2.5 text-xs font-mono uppercase text-cyan-400 font-bold tracking-wider">1. Packaging & Deployment</td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <div class="font-medium text-white">Installation Package</div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Delivery format & installation method</div>
+                                </td>
+                                <td class="p-5 bg-cyan-950/10 border-r border-slate-800/80">
+                                    <span class="font-semibold text-cyan-300 text-xs">Self-Contained Windows Setup (.exe)</span>
+                                    <span class="block text-[11px] text-slate-400 mt-1">Pre-bundled Python runtime with all machine learning & vision dependencies</span>
+                                </td>
+                                <td class="p-5 bg-teal-950/10">
+                                    <span class="font-semibold text-teal-300 text-xs">Self-Contained Windows Setup (.exe)</span>
+                                    <span class="block text-[11px] text-slate-400 mt-1">Pre-bundled Python runtime with all tabular data science dependencies</span>
+                                </td>
+                            </tr>
+
+                            <!-- Category: Compute & Hardware Requirements -->
+                            <tr class="bg-slate-900/60">
+                                <td colspan="3" class="px-5 py-2.5 text-xs font-mono uppercase text-cyan-400 font-bold tracking-wider">2. Hardware & Platform Profile</td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <div class="font-medium text-white">CPU Architecture</div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Processor specifications required to run software</div>
+                                </td>
+                                <td class="p-5 bg-cyan-950/10 border-r border-slate-800/80">
+                                    <div class="font-semibold text-cyan-300 text-xs">Intel Core i3/i5/i7 or AMD Ryzen 3/5/7</div>
+                                    <div class="text-[11px] text-slate-400 mt-1">64-bit (x86_64) architecture, 2.0 GHz+ (multi-threaded recommended)</div>
+                                </td>
+                                <td class="p-5 bg-teal-950/10">
+                                    <div class="font-semibold text-teal-300 text-xs">Intel Core i3/i5 or AMD Ryzen 3/5</div>
+                                    <div class="text-[11px] text-slate-400 mt-1">64-bit (x86_64) architecture, 1.8 GHz+</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <div class="font-medium text-white">RAM Baseline</div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Memory required to run application and models</div>
+                                </td>
+                                <td class="p-5 bg-cyan-950/10 border-r border-slate-800/80">
+                                    <div class="font-semibold text-slate-200 text-xs">8 GB minimum (16 GB recommended)</div>
+                                    <div class="text-[11px] text-slate-400 mt-1">Accommodates tabular models and image vision tensors in RAM</div>
+                                </td>
+                                <td class="p-5 bg-teal-950/10">
+                                    <div class="font-semibold text-slate-200 text-xs">4 GB minimum (8 GB recommended)</div>
+                                    <div class="text-[11px] text-slate-400 mt-1">Optimized for lightweight tabular data processing and model training</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <div class="font-medium text-white">GPU Hardware Compatibility</div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Graphics processor acceleration support</div>
+                                </td>
+                                <td class="p-5 bg-cyan-950/10 border-r border-slate-800/80">
+                                    <span class="font-semibold text-cyan-300 text-xs">Optional CUDA Acceleration</span>
+                                    <span class="block text-[11px] text-slate-400 mt-1">CPU execution by default; optional NVIDIA CUDA acceleration available for image models</span>
+                                </td>
+                                <td class="p-5 bg-teal-950/10">
+                                    <span class="font-semibold text-emerald-400 text-xs">100% CPU Optimized</span>
+                                    <span class="block text-[11px] text-slate-400 mt-1">Runs with high efficiency on standard multi-core CPUs without requiring a dedicated GPU</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <div class="font-medium text-white">Supported Operating Systems</div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Platform OS compatibility</div>
+                                </td>
+                                <td class="p-5 bg-cyan-950/10 border-r border-slate-800/80">
+                                    <span class="text-emerald-400 font-semibold text-xs">Windows 10 / 11 (64-bit)</span>
+                                    <span class="block text-[11px] text-slate-400 mt-1 font-mono">✓ Dedicated Windows Release</span>
+                                </td>
+                                <td class="p-5 bg-teal-950/10">
+                                    <span class="text-emerald-400 font-semibold text-xs">Windows 10 / 11 (64-bit)</span>
+                                    <span class="block text-[11px] text-slate-400 mt-1 font-mono">✓ Dedicated Windows Release</span>
+                                </td>
+                            </tr>
+
+                            <!-- Category: Key Features Breakdown -->
+                            <tr class="bg-slate-900/60">
+                                <td colspan="3" class="px-5 py-2.5 text-xs font-mono uppercase text-cyan-400 font-bold tracking-wider">3. Key Features & Capabilities</td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <div class="font-medium text-white">Data Model Training (Tabular ML)</div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Machine learning algorithms for structured data</div>
+                                </td>
+                                <td class="p-5 bg-cyan-950/10 border-r border-slate-800/80 text-xs text-emerald-400 font-semibold">
+                                    ✓ Included (Classification, Regression, Random Forest, XGBoost, AutoML, Hyperparameter Grid Search)
+                                </td>
+                                <td class="p-5 bg-teal-950/10 text-xs text-emerald-400 font-semibold">
+                                    ✓ Included (Classification, Regression, Random Forest, XGBoost, AutoML, Hyperparameter Grid Search)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <div class="font-medium text-white">Image Model Training & Computer Vision</div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Vision models, image filters & visual analytics</div>
+                                </td>
+                                <td class="p-5 bg-cyan-950/10 border-r border-slate-800/80 text-xs text-emerald-400 font-semibold">
+                                    ✓ Included (Image preprocessing, OpenCV filters, feature extraction, and image model training)
+                                </td>
+                                <td class="p-5 bg-teal-950/10 text-xs text-teal-300 font-medium">
+                                    <span class="font-semibold text-teal-300">Dedicated Tabular Workflow</span>
+                                    <span class="block text-[11px] text-slate-400 mt-1">Focused purely on tabular ML datasets (Image ML engine available in Classic Version)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <div class="font-medium text-white">Automated Data Cleaning & Imputation</div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Missing-value handling & dataset sanitation</div>
+                                </td>
+                                <td class="p-5 bg-cyan-950/10 border-r border-slate-800/80 text-xs text-emerald-400 font-semibold">
+                                    ✓ Included (Mean, Median, Mode, KNN, Iterative MICE, Outlier detection/trimming, Scaling & Encoding)
+                                </td>
+                                <td class="p-5 bg-teal-950/10 text-xs text-emerald-400 font-semibold">
+                                    ✓ Included (Mean, Median, Mode, KNN, Iterative MICE, Outlier detection/trimming, Scaling & Encoding)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <div class="font-medium text-white">Integrated Python REPL Code Editor</div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Interactive programmatic dataframe manipulation</div>
+                                </td>
+                                <td class="p-5 bg-cyan-950/10 border-r border-slate-800/80 text-xs text-emerald-400 font-semibold">
+                                    ✓ Included (Direct live dataframe scripting & custom math expressions)
+                                </td>
+                                <td class="p-5 bg-teal-950/10 text-xs text-emerald-400 font-semibold">
+                                    ✓ Included (Direct live dataframe scripting & custom math expressions)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <div class="font-medium text-white">SuperInsight AI Assistant</div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Conversational LLM dataset intelligence</div>
+                                </td>
+                                <td class="p-5 bg-cyan-950/10 border-r border-slate-800/80 text-xs text-emerald-400 font-semibold">
+                                    ✓ Included (Natural language dataset query interface via Google Gemini API)
+                                </td>
+                                <td class="p-5 bg-teal-950/10 text-xs text-emerald-400 font-semibold">
+                                    ✓ Included (Natural language dataset query interface via Google Gemini API)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <div class="font-medium text-white">Data Privacy & Execution Security</div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Workstation security and data confidentiality</div>
+                                </td>
+                                <td class="p-5 bg-cyan-950/10 border-r border-slate-800/80 text-xs text-emerald-400 font-semibold">
+                                    ✓ 100% In-Memory (Zero cloud data persistence or remote telemetry)
+                                </td>
+                                <td class="p-5 bg-teal-950/10 text-xs text-emerald-400 font-semibold">
+                                    ✓ 100% In-Memory (Zero cloud data persistence or remote telemetry)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-5">
+                                    <div class="font-medium text-white">Intended Use Case</div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Recommended workflow and target domain</div>
+                                </td>
+                                <td class="p-5 bg-cyan-950/10 border-r border-slate-800/80 text-xs text-slate-300">
+                                    End-to-End Data Science, Tabular & Image Machine Learning, and Predictive Analytics
+                                </td>
+                                <td class="p-5 bg-teal-950/10 text-xs text-slate-300">
+                                    Rapid Tabular Machine Learning, Data Hygiene, Preprocessing & Custom Scripting
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- System Requirements Tier Matrix Section -->
+    <section id="system-requirements" class="py-24 relative bg-slate-900/40 border-b border-[rgba(255,255,255,0.02)]">
+        <!-- Glow decorations -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[600px] h-[250px] sm:h-[300px] bg-blue-500/10 rounded-full mix-blend-screen filter blur-[90px] sm:blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12 sm:mb-16 fade-in-up delay-100">
+                <span class="text-xs uppercase tracking-widest text-cyan-400 font-mono font-semibold">Hardware Sizing & Performance Tiers</span>
+                <h2 class="text-3xl md:text-4xl font-bold mt-2">System <span class="text-cyan-400">Requirements</span></h2>
+                <p class="mt-3 sm:mt-4 text-base sm:text-lg text-slate-400 max-w-2xl mx-auto px-2">
+                    Configured for Windows 10 & 11 (64-bit), from lightweight exploratory data analysis to intensive multi-model machine learning training.
+                </p>
+            </div>
+
+            <!-- 3-Tier Requirements Cards -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+                <!-- 1. Minimum Tier -->
+                <div class="glass-panel rounded-3xl sm:rounded-[2.5rem] p-5 sm:p-8 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 group">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xl sm:text-2xl font-bold flex items-center gap-2 text-slate-200 group-hover:text-cyan-300 transition-colors">
+                                <span>⚙️</span> Minimum
+                            </span>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700/80">Entry</span>
+                        </div>
+                        <p class="text-slate-400 text-xs italic mb-5 sm:mb-6 leading-relaxed">Install, launch, explore datasets, and run basic cleaning and visualizations.</p>
+                        
+                        <div class="overflow-x-auto -mx-1 px-1">
+                            <table class="w-full text-left text-xs sm:text-sm border-collapse min-w-[280px]">
+                                <thead>
+                                    <tr class="border-b border-[rgba(255,255,255,0.1)] text-slate-400 font-semibold uppercase tracking-wider text-[11px]">
+                                        <th class="pb-2.5 pr-2 w-16 sm:w-20">Component</th>
+                                        <th class="pb-2.5">Specification</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-[rgba(255,255,255,0.06)]">
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-slate-300 align-top">OS</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-400">Windows 10 (64-bit, v1909+) / Windows 11 (64-bit)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-slate-300 align-top">CPU</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-400">Intel Core i3 (8th Gen+) / AMD Ryzen 3 2000 series, 2.0 GHz+</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-slate-300 align-top">RAM</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-400">8 GB (3.5 GB+ free at launch)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-slate-300 align-top">GPU</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-400">Integrated: Intel UHD 620+ / AMD Radeon Vega 3+ (DirectX 11)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-slate-300 align-top">Storage</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-400">2.5 GB free disk space (SSD advised)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-slate-300 align-top">Display</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-400">1280 × 720 or 1366 × 768 at 100% scaling</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Note Callout -->
+                    <div class="mt-5 sm:mt-6 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-amber-500/10 border border-amber-500/25 text-amber-200/90 text-xs leading-relaxed flex gap-2.5">
+                        <span class="text-amber-400 font-bold shrink-0">Note:</span>
+                        <span>On minimum specs, avoid datasets above 100 MB (~300,000 rows) and exhaustive Grid Search or Random Forest with 500+ estimators.</span>
+                    </div>
+                </div>
+
+                <!-- 2. Recommended Tier (Featured) -->
+                <div class="glass-panel rounded-3xl sm:rounded-[2.5rem] p-5 sm:p-8 flex flex-col justify-between border-cyan-500/40 shadow-[0_0_35px_rgba(34,211,238,0.18)] relative transition-all duration-300 hover:-translate-y-1 ring-1 ring-cyan-500/30">
+                    <div class="absolute -top-3.5 right-6 sm:right-8">
+                        <span class="bg-gradient-primary text-white text-[10px] sm:text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-[0_0_15px_rgba(45,212,191,0.5)]">
+                            Recommended
+                        </span>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xl sm:text-2xl font-bold flex items-center gap-2 text-cyan-300">
+                                <span>🚀</span> Recommended
+                            </span>
+                        </div>
+                        <p class="text-slate-400 text-xs italic mb-5 sm:mb-6 leading-relaxed">Smooth UI, instant Plotly rendering, and comfortable ML training on medium datasets.</p>
+                        
+                        <div class="overflow-x-auto -mx-1 px-1">
+                            <table class="w-full text-left text-xs sm:text-sm border-collapse min-w-[280px]">
+                                <thead>
+                                    <tr class="border-b border-[rgba(255,255,255,0.1)] text-cyan-400 font-semibold uppercase tracking-wider text-[11px]">
+                                        <th class="pb-2.5 pr-2 w-16 sm:w-20">Component</th>
+                                        <th class="pb-2.5">Specification</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-[rgba(255,255,255,0.06)]">
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-cyan-200 align-top">OS</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-300">Windows 11 (64-bit, 22H2+) / Windows 10 (64-bit, 22H2)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-cyan-200 align-top">CPU</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-300">Intel Core i5 (10th-13th Gen) / AMD Ryzen 5 4000/5000/6000 series (6 cores)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-cyan-200 align-top">RAM</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-300">16 GB DDR4/DDR5</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-cyan-200 align-top">GPU</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-300">Intel Iris Xe / AMD Radeon 680M / NVIDIA MX450 or GTX 1650</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-cyan-200 align-top">Storage</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-300">5 GB free disk space on NVMe SSD</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-cyan-200 align-top">Display</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-300">1920 × 1080 at 100% or 125% scaling</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Tip Callout -->
+                    <div class="mt-5 sm:mt-6 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-cyan-500/10 border border-cyan-500/25 text-cyan-200/90 text-xs leading-relaxed flex gap-2.5">
+                        <span class="text-cyan-400 font-bold shrink-0">Tip:</span>
+                        <span>Handles datasets of 500 MB to 1 GB (~1M to 3M rows), with fast KNN/Median imputation, outlier transformations, and quick XGBoost/LightGBM tuning.</span>
+                    </div>
+                </div>
+
+                <!-- 3. Optimal Tier -->
+                <div class="glass-panel rounded-3xl sm:rounded-[2.5rem] p-5 sm:p-8 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 group">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xl sm:text-2xl font-bold flex items-center gap-2 text-slate-200 group-hover:text-emerald-300 transition-colors">
+                                <span>⚡</span> Optimal
+                            </span>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-950/60 text-emerald-400 border border-emerald-500/30">Pro & Power</span>
+                        </div>
+                        <p class="text-slate-400 text-xs italic mb-5 sm:mb-6 leading-relaxed">Fastest ML pipelines, large image-processing batches, and zero-latency analytics.</p>
+                        
+                        <div class="overflow-x-auto -mx-1 px-1">
+                            <table class="w-full text-left text-xs sm:text-sm border-collapse min-w-[280px]">
+                                <thead>
+                                    <tr class="border-b border-[rgba(255,255,255,0.1)] text-slate-400 font-semibold uppercase tracking-wider text-[11px]">
+                                        <th class="pb-2.5 pr-2 w-16 sm:w-20">Component</th>
+                                        <th class="pb-2.5">Specification</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-[rgba(255,255,255,0.06)]">
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-slate-300 align-top">OS</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-400">Windows 11 (64-bit, latest build)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-slate-300 align-top">CPU</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-400">Intel Core i7/i9 (12th-14th Gen) / AMD Ryzen 7/9 7000/8000 series (8+ performance cores)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-slate-300 align-top">RAM</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-400">32 GB DDR5</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-slate-300 align-top">GPU</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-400">NVIDIA GeForce RTX 3050/3060/4060 or higher (DirectX 12 / D3D11 acceleration)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-slate-300 align-top">Storage</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-400">PCIe Gen 4 NVMe SSD, 10+ GB free disk space</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2.5 sm:py-3 pr-2 font-semibold text-slate-300 align-top">Display</td>
+                                        <td class="py-2.5 sm:py-3 text-slate-400">1920 × 1080, 2560 × 1440, or 2880 × 1800 (OLED) at 125-150% scaling</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Optimal Highlight Callout -->
+                    <div class="mt-5 sm:mt-6 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-200/90 text-xs leading-relaxed flex items-center gap-2.5">
+                        <span class="text-emerald-400 font-bold shrink-0">✨ High Performance:</span>
+                        <span>Zero-lag processing for multi-model ensembles, bulk image batches, and huge datasets.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Specifications Section -->
+    <section id="tech-specs" class="py-24 relative bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+CjxwYXRoIGQ9Ik0wIDBoNDB2NDBIMHoiIGZpbGw9IiMwQjExMjAiLz4KPHBhdGggZD0iTTAgMGg0MHYxSDB6IiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDMpIi8+CjxwYXRoIGQ9Ik0wIDBoMXY0MEgweiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIvPgo8L3N2Zz4=')] border-y border-[rgba(255,255,255,0.02)]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in-up">
+                <span class="text-xs uppercase tracking-widest text-cyan-400 font-mono font-semibold">System Architecture & Profile</span>
+                <h2 class="text-3xl md:text-5xl font-bold mt-2">Technical <span class="text-gradient">Specifications</span></h2>
+                <p class="mt-4 text-base sm:text-lg text-slate-300 max-w-3xl mx-auto">
+                    In-depth technical architecture describing computational requirements, runtime memory footprints, packaging standards, and execution security for SuperInsight.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Spec Card 1: Packaging & Deployment -->
+                <div class="glass-panel p-8 rounded-[2rem] border border-slate-800 relative overflow-hidden group hover:border-cyan-500/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Packaging & Deployment</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Self-contained executable setup packages engineered for single-click Windows installation with all core analytical runtime components bundled.
+                    </p>
+                    <ul class="space-y-2 text-xs font-mono text-slate-300 border-t border-slate-800 pt-4">
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Classic Target:</span>
+                            <span class="text-cyan-300 font-bold">Full Vision & ML Suite (.exe)</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Lite Target:</span>
+                            <span class="text-teal-300 font-bold">Tabular ML & Preprocessing (.exe)</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Packaging Format:</span>
+                            <span class="text-emerald-400 font-mono">Self-Contained Installer</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Spec Card 2: CPU Requirements -->
+                <div class="glass-panel p-8 rounded-[2rem] border border-slate-800 relative overflow-hidden group hover:border-cyan-500/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">CPU Architecture</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Requires a 64-bit multi-core processor (x86_64). Automated data cleaning, parallel grid search, and scikit-learn model fitting take advantage of all CPU cores.
+                    </p>
+                    <ul class="space-y-2 text-xs font-mono text-slate-300 border-t border-slate-800 pt-4">
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Architecture:</span>
+                            <span class="text-slate-200">64-bit (x86_64)</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Classic Target:</span>
+                            <span class="text-cyan-300">Intel i3/i5/i7, AMD Ryzen</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Lite Target:</span>
+                            <span class="text-teal-300">Intel i3/i5, AMD Ryzen</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Spec Card 3: RAM & Memory Profile -->
+                <div class="glass-panel p-8 rounded-[2rem] border border-slate-800 relative overflow-hidden group hover:border-cyan-500/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-400 flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">RAM Requirements</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        SuperInsight operates strictly in-memory. System memory determines the maximum dataset row count and tabular feature matrix dimensions handled without paging.
+                    </p>
+                    <ul class="space-y-2 text-xs font-mono text-slate-300 border-t border-slate-800 pt-4">
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Classic Min / Rec:</span>
+                            <span class="text-cyan-300 font-bold">8 GB / 16 GB</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Lite Min / Rec:</span>
+                            <span class="text-teal-300 font-bold">4 GB / 8 GB</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Memory Architecture:</span>
+                            <span class="text-emerald-400 font-mono">100% In-Memory Execution</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Spec Card 4: GPU Hardware Support -->
+                <div class="glass-panel p-8 rounded-[2rem] border border-slate-800 relative overflow-hidden group hover:border-cyan-500/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">GPU Acceleration Support</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Neither edition requires a discrete GPU to operate. CPU-based training is standard, with optional NVIDIA CUDA hardware acceleration in Classic for image processing.
+                    </p>
+                    <ul class="space-y-2 text-xs font-mono text-slate-300 border-t border-slate-800 pt-4">
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Classic GPU:</span>
+                            <span class="text-cyan-300 font-semibold">Optional (CUDA Acceleration)</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Lite GPU:</span>
+                            <span class="text-emerald-400 font-semibold">100% CPU Optimized</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Hardware Baseline:</span>
+                            <span class="text-emerald-400">No Dedicated GPU Required</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Spec Card 5: Local Security Architecture -->
+                <div class="glass-panel p-8 rounded-[2rem] border border-slate-800 relative overflow-hidden group hover:border-cyan-500/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Security & Data Privacy</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Operates completely client-side in workstation memory. No dataset records, trained model weights, or user code are transmitted to external servers.
+                    </p>
+                    <ul class="space-y-2 text-xs font-mono text-slate-300 border-t border-slate-800 pt-4">
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Data Boundary:</span>
+                            <span class="text-emerald-400 font-bold">100% Local Workstation</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Cloud Storage:</span>
+                            <span class="text-slate-300">Zero Cloud Persistence</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Telemetry:</span>
+                            <span class="text-cyan-300">Zero Tracking / Private</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Spec Card 6: Operating System Support -->
+                <div class="glass-panel p-8 rounded-[2rem] border border-slate-800 relative overflow-hidden group hover:border-cyan-500/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Operating Systems</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Officially packaged, compiled, and verified exclusively for 64-bit Microsoft Windows workstations, laptops, and virtual environments.
+                    </p>
+                    <ul class="space-y-2 text-xs font-mono text-slate-300 border-t border-slate-800 pt-4">
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Windows 11 (64-bit):</span>
+                            <span class="text-emerald-400 font-bold">✓ Officially Supported</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Windows 10 (64-bit):</span>
+                            <span class="text-emerald-400 font-bold">✓ Officially Supported</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="text-slate-400">Binary Architecture:</span>
+                            <span class="text-cyan-300 font-bold">x86_64 / AMD64 Native</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#050810] py-16 border-t border-[rgba(255,255,255,0.05)] text-slate-400 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-10">
+            <!-- Brand -->
+            <div class="flex items-center gap-3">
+                <img src="Logo.png" alt="SuperInsight Logo" class="footer-logo rounded-md opacity-90">
+                <span class="font-bold text-lg text-slate-200 tracking-tight">SuperInsight</span>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="flex flex-wrap justify-center gap-5 sm:gap-7 text-sm font-medium">
+                <a href="#features" class="hover:text-cyan-400 transition-colors">Features</a>
+                <a href="#audience" class="hover:text-cyan-400 transition-colors">For Who</a>
+                <a href="#download" class="hover:text-cyan-400 transition-colors">Installers</a>
+                <a href="#comparison" class="hover:text-cyan-400 transition-colors">Compare Editions</a>
+                <a href="#system-requirements" class="hover:text-cyan-400 transition-colors">Requirements</a>
+                <a href="#tech-specs" class="hover:text-cyan-400 transition-colors">Tech Specs</a>
+                <a href="SuperInsight_Report.pdf" class="hover:text-cyan-400 transition-colors">Documentation</a>
+                <a href="https://github.com/codingshardy/Superinsight-Data-Analytics-Platform" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition-colors">GitHub Repository</a>
+                <a href="#" class="hover:text-cyan-400 transition-colors">Support</a>
+            </div>
+            
+            <!-- Dual Download Quick Buttons -->
+            <div class="flex items-center gap-3">
+                <a href="https://github.com/codingshardy/Superinsight-Data-Analytics-Platform/releases/download/v3.3/SuperInsight_v3.3_Setup.exe" download="SuperInsight_v3.3_Setup.exe" onclick="showDownloadFeedback('SuperInsight_v3.3_Setup.exe')" class="inline-flex items-center justify-center px-4 py-2 border border-cyan-500/50 rounded-full text-xs font-semibold text-cyan-300 hover:bg-cyan-950/40 hover:text-white transition-all">
+                    Classic Version (v3.3)
+                </a>
+                <a href="https://github.com/codingshardy/Superinsight-Data-Analytics-Platform/releases/download/v1.0.0/SuperInsight_v1.0_Setup.exe" download="SuperInsight_v1.0_Setup.exe" onclick="showDownloadFeedback('SuperInsight_v1.0_Setup.exe')" class="inline-flex items-center justify-center px-4 py-2 border border-teal-500/50 rounded-full text-xs font-semibold text-teal-300 hover:bg-teal-950/40 hover:text-white transition-all">
+                    Lite Version (v1.0)
+                </a>
+            </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 text-center md:text-left text-xs text-slate-600 flex flex-col md:flex-row justify-between items-center">
+            <p>&copy; 2026 SuperInsight Team. All rights reserved.</p>
+            <p class="mt-2 md:mt-0">Designed for Data Pioneers • High-Performance Windows Desktop Analytics Suite</p>
+        </div>
+    </footer>
+
+    <!-- Download Feedback Notification Toast -->
+    <div id="downloadToast" class="fixed bottom-6 right-6 sm:bottom-6 sm:right-6 left-4 right-4 sm:left-auto z-50 transform translate-y-24 opacity-0 pointer-events-none transition-all duration-300 max-w-sm mx-auto sm:mx-0">
+        <div class="glass-panel p-4 rounded-2xl border border-cyan-400/40 shadow-[0_0_25px_rgba(34,211,238,0.25)] flex items-center gap-3 bg-[#0B1120]/95 backdrop-blur-xl">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            </div>
+            <div class="min-w-0 flex-1">
+                <div class="text-sm font-bold text-emerald-400 flex items-center gap-1.5" id="toastTitle">
+                    <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Download Initialized
+                </div>
+                <div class="text-xs text-slate-300 font-mono truncate" id="toastFilename">SuperInsight_v3.3_Setup.exe</div>
+                <div class="text-[11px] text-slate-400 mt-0.5">Windows 10 / 11 (64-bit) Installer</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu and Download Feedback Scripts -->
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuIconClosed = document.getElementById('menuIconClosed');
+        const menuIconOpen = document.getElementById('menuIconOpen');
+
+        function toggleMobileMenu(forceClose = false) {
+            if (!mobileMenu || !mobileMenuBtn) return;
+            const shouldClose = forceClose || !mobileMenu.classList.contains('hidden');
+            if (shouldClose) {
+                mobileMenu.classList.add('hidden');
+                menuIconClosed.classList.remove('hidden');
+                menuIconOpen.classList.add('hidden');
+            } else {
+                mobileMenu.classList.remove('hidden');
+                menuIconClosed.classList.add('hidden');
+                menuIconOpen.classList.remove('hidden');
+            }
+        }
+
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMobileMenu();
+            });
+
+            // Close mobile menu on item click
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    toggleMobileMenu(true);
+                });
+            });
+
+            // Close on click outside
+            document.addEventListener('click', (e) => {
+                if (!mobileMenu.classList.contains('hidden')) {
+                    if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                        toggleMobileMenu(true);
+                    }
+                }
+            });
+
+            // Close on window resize to desktop
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768 && !mobileMenu.classList.contains('hidden')) {
+                    toggleMobileMenu(true);
+                }
+            });
+        }
+
+        // Non-intrusive download feedback toast
+        let toastTimeout = null;
+        function showDownloadFeedback(filename) {
+            const toast = document.getElementById('downloadToast');
+            const toastFilename = document.getElementById('toastFilename');
+            if (!toast || !toastFilename) return;
+
+            toastFilename.textContent = filename;
+            toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
